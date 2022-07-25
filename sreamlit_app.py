@@ -3,6 +3,8 @@ import streamlit as st
 from google.cloud import firestore
 import uuid
 import pycountry
+from google.oauth2 import service_account
+import json
 
 country_list = [c.name for c in pycountry.countries]
 
@@ -11,7 +13,10 @@ country_list = [c.name for c in pycountry.countries]
 # firebase_admin.initialize_app(cred)
 
 # Authenticate to Firestore with the JSON account key.
-db = firestore.Client.from_service_account_json("/Users/fran/substances-db-firebase-adminsdk-wvxtn-6ac075e333.json")
+
+key_dict = json.loads(st.secrets["textkey"])
+creds = service_account.Credentials.from_service_account_info(key_dict)
+db = firestore.Client(credentials=creds, project="streamlit-reddit")
 
 test_list = ["ANTIBODY TEST STRIPS",
              "REAGENT TESTING",
