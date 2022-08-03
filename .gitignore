@@ -2,3 +2,7 @@
 venv/
 key-to-toml.py
 .streamlit
+.ipynb_checkpoints/
+*.ipynb
+__pycache__/
+local_db.json
