@@ -57,15 +57,7 @@ def post_to_db (dict_in, sample_id):
         doc_ref = db.collection("substances").document(sample_id)
         doc_ref.set(dict_in[sample_id])
         st.text(F"Sample {sample_id} was successfully submitted")
-        # And then render each post, using some light Markdown
-        posts_ref = db.collection("substances")
-        for doc in posts_ref.stream():
-            post = doc.to_dict()
-            queried_substance_1 = post["substance_1"]
-            queried_alert = post["alert"]
 
-            st.subheader(f"Posted: {queried_substance_1}")
-            st.write(f"Alert: {post}")
     else:
         try:
             with open("local_db.json", "r") as jsf:
