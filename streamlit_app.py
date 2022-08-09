@@ -14,6 +14,7 @@ country_list = [c.name for c in pycountry.countries]
 country_list.insert(0, country_list.pop(country_list.index("Germany")))
 
 # watch out for the incompatibility of bcrypt https://github.com/matrix-org/synapse/pull/2288
+# https://github.com/matrix-org/synapse/issues/2345#issuecomment-314076318
 
 config = json.loads(st.secrets["auth"])
 
