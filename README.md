@@ -3,7 +3,9 @@
 This repository hosts a prototype of the TEDI data collection tool developed for the NGO [Deliberar](https://deliberar.org/).
 As a proof of concept, it implements the [expanded version](https://github.com/harmreduction/tedi_guidelines/blob/main/README.md) of the TEDI guidelines
 
-It uses streamlit as the python library for the form and google firebase for the data storage
+It uses Streamlit as the python library for the form and Google Firebase for the data storage
+
+Click on [![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://viewsondrugs-deliberar-db-streamlit-app-q1n3n4.streamlitapp.com/) to see the live version. For login access please contact francisco@mybrainmychoice.de
 
 ## Requirements
 
@@ -22,15 +24,15 @@ To set up the firebase DB and the authentication methods follow [these instructi
 
 ### Set up Web Tool
 
-only after setting up the DB, offline set-up is on dev.
+Only after setting up the DB, it's offline set-up is on dev.
 
-#### local set-up:
+#### offline set-up:
 
-  - clone this repository to your local system. 
+  - clone this repository to your local system. `git clone https://github.com/ViewsOnDrugs/deliberar_db.git`
   - cd into the created directory and run `pip install -r requirements.txt`
   - run `streamlit run streamlit_app.py`
   
-  a file `local_db.json` will be created to store the submitted information through the form.
+  A `local_db.json` file will be created to store the submitted information through the form.
   
 
 #### online set-up: 
@@ -42,5 +44,10 @@ A detailed guide on how to set up a streamlit application can be found [here](ht
 - create a streamlit account
 
 - add your forked repository to your streamlit account. you can control the access to the form through your streamlit account
+
+#### Authentication set-up
+
+  TBD partially from https://towardsdatascience.com/how-to-add-a-user-authentication-service-in-streamlit-a8b93bf02031
+  - add secrets to the streamlit admin page
 
 
