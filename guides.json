@@ -69,7 +69,7 @@
     },
     "colour": {
         "VARIABLE_NAME": "Colour*",
-        "DESCRIPTION": NaN,
+        "DESCRIPTION": "",
         "TYPE": "text",
         "REQUIREMENT_LEVEL": "required"
     },
@@ -105,26 +105,26 @@
     },
     "unit_price": {
         "VARIABLE_NAME": "Price per unit",
-        "DESCRIPTION": NaN,
+        "DESCRIPTION": "",
         "TYPE": "number",
         "REQUIREMENT_LEVEL": "recommended"
     },
     "price_currency": {
         "VARIABLE_NAME": "Price currency",
-        "DESCRIPTION": NaN,
+        "DESCRIPTION": "",
         "TYPE": "text",
         "REQUIREMENT_LEVEL": "recommended"
     },
     "gender": {
         "VARIABLE_NAME": "Gender",
-        "DESCRIPTION": NaN,
+        "DESCRIPTION": "",
         "TYPE": "controlled vocabulary",
-        "VOCABULARY": [NaN, "NB", "F", "M"],
+        "VOCABULARY": ["", "NB", "F", "M"],
         "REQUIREMENT_LEVEL": "recommended"
     },
     "age": {
         "VARIABLE_NAME": "Age",
-        "DESCRIPTION": NaN,
+        "DESCRIPTION": "",
         "TYPE": "number",
         "REQUIREMENT_LEVEL": "recommended"
     },
@@ -177,13 +177,13 @@
     },
     "subs9_quant": {
         "VARIABLE_NAME": "Subst9-Quant",
-        "DESCRIPTION": NaN,
+        "DESCRIPTION": "",
         "TYPE": "number",
         "REQUIREMENT_LEVEL": "optional"
     },
     "subs9_unit": {
         "VARIABLE_NAME": "Subst9-Unit",
-        "DESCRIPTION": NaN,
+        "DESCRIPTION": "",
         "TYPE": "text",
         "REQUIREMENT_LEVEL": "optional"
     },
