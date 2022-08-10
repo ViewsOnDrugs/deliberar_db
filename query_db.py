@@ -17,7 +17,7 @@ with open(
     GUIDELINES = json.load(jsd)
 
 # check for internet connection
-def internet_online(url='https://elespectador.com', timeout=5):
+def check_internet_conn(url='https://elespectador.com', timeout=5):
     """
 
     :param url: test url
@@ -49,7 +49,7 @@ def return_db(online=True):
     :param online:
     :return:
     """
-    if internet_online():
+    if check_internet_conn():
         # And then render each post, using some light Markdown
         posts_ref = db.collection("substances")
         dict_to_df = {}
@@ -73,7 +73,7 @@ def post_to_db (dict_in, sample_id):
     :return:
     """
 
-    if internet_online():
+    if check_internet_conn():
         # Create a reference to the Google post.
         doc_ref = db.collection("substances").document(sample_id)
         doc_ref.set(dict_in[sample_id])

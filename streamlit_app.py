@@ -11,7 +11,7 @@ import streamlit_authenticator as stauth
 
 
 country_list = [c.name for c in pycountry.countries]
-country_list.insert(0, country_list.pop(country_list.index("Germany")))
+
 
 # watch out for the incompatibility of bcrypt https://github.com/matrix-org/synapse/pull/2288
 # https://github.com/matrix-org/synapse/issues/2345#issuecomment-314076318
@@ -28,6 +28,9 @@ authenticator = stauth.Authenticate(
 
 name, authentication_status, username = authenticator.login('Login', 'main')
 
+with open("lib/orga_lib.json", "r") as orgl:
+    orga_dict=json.load(orgl)
+
 if authentication_status:
     authenticator.logout('Logout', 'main')
 
@@ -38,6 +41,7 @@ if authentication_status:
 
     test_list = GUIDELINES["test_method"]["VOCABULARY"]
     required_fields = [x for x in GUIDELINES if GUIDELINES[x]["REQUIREMENT_LEVEL"] == 'required']
+    country_list.insert(0, country_list.pop(country_list.index(orga_dict[username]['country_first'])))
 
 
 
@@ -53,10 +57,7 @@ if authentication_status:
         st.header("Substance Submission Form")
 
     with h2:
-        if username == "admin_deliberar":
-            head_0 = f' [<img src="https://i2.wp.com/reverdeser.org/wp-content/uploads/2017/07/paschido.png?fit=520%2C431" alt="drawing" width="150"/>](http://reverdeser.org/inicio-a/programa-de-analisis-de-sustancias/)'
-        elif username == "admin_vivid":
-            head_0 =  '[<img src="https://vivid-hamburg.de/wp-content/uploads/2020/05/logo_lang.jpg"  style="object-fit:cover; object-position: center; width:200px; height:125px; border: solid 1px #CCC"/>](https://vivid-hamburg.de/)'
+        head_0 = orga_dict[username]['head']
         st.markdown(head_0, unsafe_allow_html=True)
 
     with h3:
@@ -70,7 +71,8 @@ if authentication_status:
 
         with col1:
             date = str(st.date_input(GUIDELINES["date"]["VARIABLE_NAME"], key="1"))
-            organisation = st.selectbox(GUIDELINES["organisation"]["VARIABLE_NAME"], options=["VIVID", "Deliberar"])
+            st.text("organization")
+            organisation = st.markdown(f"#### {orga_dict[username]['name']}")
             country = st.selectbox(GUIDELINES["country"]["VARIABLE_NAME"], options=country_list, key="4")
             city = st.text_input( GUIDELINES["city"]["VARIABLE_NAME"] , key=" 5")
             sold_as = st.text_input(GUIDELINES["sold_as"]["VARIABLE_NAME"] , key="8")
@@ -81,8 +83,8 @@ if authentication_status:
             alias = st.text_input(GUIDELINES["alias"]["VARIABLE_NAME"], key="9")
             used_prior = st.checkbox(GUIDELINES["used_prior"]["VARIABLE_NAME"], key="10")
             logo = st.text_input(GUIDELINES["logo"]["VARIABLE_NAME"], key="13")
-            st.markdown("##### (*) Required Field")
-            st.info(f"### Sample id: `{sample_id_pre}`")
+            st.info(f"### Sample id: {sample_id_pre}")
+            st.caption("copy this sample id and paste it in the Sample UID* input box below before submitting")
             sample_uid = st.text_input(GUIDELINES["sample_uid"]["VARIABLE_NAME"] , key="11")
 
         with col2:
@@ -105,6 +107,7 @@ if authentication_status:
             subs9_unit = st.text_input(GUIDELINES["subs9_unit"]["VARIABLE_NAME"], key="28")
             alert = st.checkbox("Check if an alert was issued", key="29")
 
+        st.markdown("##### (*) Required Field")
         submit = st.form_submit_button("Submit sample")
 
         dic_set = {
