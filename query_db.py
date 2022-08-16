@@ -11,11 +11,6 @@ key_dict = json.loads(st.secrets["textkey"])
 creds = service_account.Credentials.from_service_account_info(key_dict)
 db = firestore.Client(credentials=creds, project="substances-db")
 
-# Load TEDI guidelines
-with open(
-        "guides.json") as jsd:
-    GUIDELINES = json.load(jsd)
-
 # check for internet connection
 def check_internet_conn(url='https://elespectador.com', timeout=5):
     """
