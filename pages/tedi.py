@@ -2,15 +2,15 @@
 import streamlit as st
 import uuid
 import pycountry
-import json
 from query_db import return_db, post_to_db, update_db
 import os
 from PIL import Image
+from lib.orga_lib import load_orga_lib
+from lan.load_lan import load_lan
 
 
-# load organization library
-with open("../lib/orga_lib.json", "r") as orgl:
-    orga_dict = json.load(orgl)
+
+orga_dict = load_orga_lib()
 
 
 def load_image(image_file):
@@ -18,13 +18,12 @@ def load_image(image_file):
     return img
 
 
-def main_form(username):
+def tedi_form(username):
 
     lang_main = orga_dict[username]["lan"]
 
     # Load TEDI guidelines
-    with open(f"lan/{lang_main}.json", "r") as jsd:
-        GUIDELINES = json.load(jsd)
+    GUIDELINES = load_lan(lang_main)
 
     interface_dic = GUIDELINES['_interface']
 
@@ -69,7 +68,7 @@ def main_form(username):
             used_prior = st.checkbox(GUIDELINES["used_prior"]["VARIABLE_NAME"], key="10")
             logo = st.text_input(GUIDELINES["logo"]["VARIABLE_NAME"], key="13")
             st.info(f"### {interface_dic['sample_id']}: {sample_id_pre}")
-            sample_uid = st.text_input(GUIDELINES["sample_uid"]["VARIABLE_NAME"] , key="11")
+            sample_uid = st.text_input(GUIDELINES["sample_uid"]["VARIABLE_NAME"] , key="2")
 
         with col2:
 

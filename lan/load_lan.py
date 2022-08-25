@@ -3,11 +3,12 @@
 import json
 import os
 dirname = os.path.dirname(__file__)
-json_file = os.path.join(dirname, 'orga_lib.json')
 
-def load_orga_lib():
+
+def load_lan(lang):
     # load organization library
+    json_file = os.path.join(dirname, f'{lang}.json')
     with open(json_file, "r") as orgl:
-        orga_dict = json.load(orgl)
-    return orga_dict
+        lang_dict = json.load(orgl)
+    return lang_dict
 

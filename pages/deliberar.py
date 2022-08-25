@@ -2,11 +2,11 @@
 import streamlit as st
 import uuid
 import pycountry
-import json
 from query_db import return_db, post_to_db, update_db
 import os
 from PIL import Image
 from lib.orga_lib import load_orga_lib
+from lan.load_lan import load_lan
 
 
 
@@ -18,13 +18,12 @@ def load_image(image_file):
     return img
 
 
-def tedi_form(username):
+def main_form(username):
 
     lang_main = orga_dict[username]["lan"]
 
     # Load TEDI guidelines
-    with open(f"lan/{lang_main}.json", "r") as jsd:
-        GUIDELINES = json.load(jsd)
+    GUIDELINES = load_lan(lang_main)
 
     interface_dic = GUIDELINES['_interface']
 
@@ -69,7 +68,7 @@ def tedi_form(username):
             used_prior = st.checkbox(GUIDELINES["used_prior"]["VARIABLE_NAME"], key="10")
             logo = st.text_input(GUIDELINES["logo"]["VARIABLE_NAME"], key="13")
             st.info(f"### {interface_dic['sample_id']}: {sample_id_pre}")
-            sample_uid = st.text_input(GUIDELINES["sample_uid"]["VARIABLE_NAME"] , key="2")
+            sample_uid = st.text_input(GUIDELINES["sample_uid"]["VARIABLE_NAME"] , key="11")
 
         with col2:
 
@@ -125,21 +124,21 @@ def tedi_form(username):
                 # missing_fields = [c for c in [sample_uid and organisation and sample_form and substance_1] if c in required_fields]
                 st.warning(f"{interface_dic['warning_req_fields']} \n {missing_fields}")
 
-    st.markdown("##")
-    st.subheader(interface_dic['upload_img'])
-    image_file = st.file_uploader("Upload Images", type=["png", "jpg", "jpeg"])
-    if image_file:
-        if st.button(interface_dic['confirm_upload']):
-            pic_pil = load_image(image_file)
-            pic_ext = image_file.type.split("/")[1]
-            pic_pil.save(os.path.join("../images_db", f"{sample_uid}.PNG"))
-            st.success(f" {interface_dic['saved_img']} `{sample_uid}.{pic_ext}`")
-    st.markdown("##")
+        st.markdown("##")
+        st.subheader(interface_dic['upload_img'])
+        image_file = st.file_uploader("Upload Images", type=["png", "jpg", "jpeg"])
+        if image_file:
+            if st.button(interface_dic['confirm_upload']):
+                pic_pil = load_image(image_file)
+                pic_ext = image_file.type.split("/")[1]
+                pic_pil.save(os.path.join("../images_db", f"{sample_uid}.PNG"))
+                st.success(f" {interface_dic['saved_img']} `{sample_uid}.{pic_ext}`")
+        st.markdown("##")
 
-    if st.button(interface_dic['show_db']):
-        return_db()
+        if st.button(interface_dic['show_db']):
+            return_db()
 
-    update_db()
+        update_db()
 
     # # Then get the data at that reference.
     # doc = doc_ref.get()
