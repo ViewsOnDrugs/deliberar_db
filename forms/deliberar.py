@@ -9,7 +9,7 @@ from PIL import Image
 
 
 # load organization library
-with open("lib/orga_lib.json", "r") as orgl:
+with open("../lib/orga_lib.json", "r") as orgl:
     orga_dict = json.load(orgl)
 
 
@@ -55,8 +55,9 @@ def main_form(username):
 
         with col1:
             date = str(st.date_input(GUIDELINES["date"]["VARIABLE_NAME"], key="1"))
-            st.markdown(f"##### {interface_dic['organization']}")
-            organisation = st.markdown(f"#### {orga_dict[username]['name']}")
+            organisation = interface_dic['organization']
+            st.markdown(f"##### {organisation}")
+            st.markdown(f"#### {orga_dict[username]['name']}")
             country = st.selectbox(GUIDELINES["country"]["VARIABLE_NAME"], options=country_list, key="4")
             city = st.text_input( GUIDELINES["city"]["VARIABLE_NAME"] , key=" 5")
             sold_as = st.text_input(GUIDELINES["sold_as"]["VARIABLE_NAME"] , key="8")
@@ -94,7 +95,7 @@ def main_form(username):
         submit = st.form_submit_button(f" {interface_dic['submit_samp']}")
 
         dic_set = {
-            sample_uid: {"date": date, "organisation": organisation, "sample_uid": sample_uid,
+            sample_uid: {"date": date, "organisation": str(organisation), "sample_uid": sample_uid,
                          "country": country, "city": city, "geo_context": geo_context, "relationship": provider_relation,
                          "sold_as": sold_as, "alias": alias, "used_prior": used_prior, "sample_form": sample_form,
                          "colour": colour, "logo": logo, "width": width, "thickness": thickness, "height": height,
@@ -105,14 +106,17 @@ def main_form(username):
                    }
 
         if submit:
+
+            st.text(f"{sample_uid}, {str(organisation)}, {sample_form}")
+
             if sample_uid and organisation and sample_form:
 
                 # Once the user has submitted, upload it to the database
                 if not substance_1:
+                    st.warning(f"{sample_uid} {interface_dic['warning']}")
                     post_to_db(dic_set, sample_uid)
 
                 else:
-                    st.warning(f"{sample_uid} {interface_dic['warning']}")
                     post_to_db(dic_set, sample_uid)
 
             else:
@@ -128,7 +132,7 @@ def main_form(username):
         if st.button(interface_dic['confirm_upload']):
             pic_pil = load_image(image_file)
             pic_ext = image_file.type.split("/")[1]
-            pic_pil.save(os.path.join("images_db", f"{sample_uid}.PNG"))
+            pic_pil.save(os.path.join("../images_db", f"{sample_uid}.PNG"))
             st.success(f" {interface_dic['saved_img']} `{sample_uid}.{pic_ext}`")
     st.markdown("##")
 

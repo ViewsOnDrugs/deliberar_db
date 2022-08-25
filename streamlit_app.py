@@ -2,7 +2,7 @@
 import streamlit as st
 import json
 import streamlit_authenticator as stauth
-from main_form import main_form
+from forms.main_form import main_form
 
 
 # watch out for the incompatibility of bcrypt https://github.com/matrix-org/synapse/pull/2288
