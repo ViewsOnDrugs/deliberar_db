@@ -69,7 +69,7 @@ def tedi_form(username):
             used_prior = st.checkbox(GUIDELINES["used_prior"]["VARIABLE_NAME"], key="10")
             logo = st.text_input(GUIDELINES["logo"]["VARIABLE_NAME"], key="13")
             st.info(f"### {interface_dic['sample_id']}: {sample_id_pre}")
-            sample_uid = st.text_input(GUIDELINES["sample_uid"]["VARIABLE_NAME"] , key="11")
+            sample_uid = st.text_input(GUIDELINES["sample_uid"]["VARIABLE_NAME"] , key="2")
 
         with col2:
 
