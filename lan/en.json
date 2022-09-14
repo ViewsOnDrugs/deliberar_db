@@ -211,6 +211,10 @@
         "confirm_upload": "Confirm upload image",
         "saved_img": "Image saved",
         "show_db": "Show DB",
+        "update_db": "Update Database",
+        "select_update": "Select id to be updated",
+        "update_input": "Update substance_1 result of",
+        "update_button": "Update",
         "REQUIREMENT_LEVEL": ""
     }
 }

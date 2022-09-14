@@ -218,6 +218,10 @@
         "confirm_upload": "Click para subir la imagen",
         "saved_img": "Foto subida con éxito",
         "show_db": "Mostrar base de datos",
+        "update_db": "Actualizar base de datos",
+        "select_update": "Seleccionar ID a actualizar",
+        "update_input": "Actualizar resultado de ID",
+        "update_button": "Actualizar",
         "REQUIREMENT_LEVEL": ""
     }
 }

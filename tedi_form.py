@@ -8,8 +8,6 @@ from PIL import Image
 from lib.orga_lib import load_orga_lib
 from lan.load_lan import load_lan
 
-
-
 orga_dict = load_orga_lib()
 
 
@@ -125,7 +123,7 @@ def tedi_form(username):
 
     st.markdown("##")
     st.subheader(interface_dic['upload_img'])
-    image_file = st.file_uploader("Upload Images", type=["png", "jpg", "jpeg"])
+    image_file = st.file_uploader(interface_dic['upload_img'], type=["png", "jpg", "jpeg"])
     if image_file:
         if st.button(interface_dic['confirm_upload']):
             pic_pil = load_image(image_file)
@@ -135,9 +133,10 @@ def tedi_form(username):
     st.markdown("##")
 
     if st.button(interface_dic['show_db']):
-        return_db()
 
-    update_db()
+        st.dataframe(return_db()[1])
+
+    update_db(interface_dic)
 
     # # Then get the data at that reference.
     # doc = doc_ref.get()

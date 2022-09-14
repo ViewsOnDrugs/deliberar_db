@@ -4,12 +4,29 @@ import requests
 import streamlit as st
 from google.cloud import firestore
 from google.oauth2 import service_account
+# from lan.load_lan import load_lan
 
 # Authenticate to Firestore with the JSON account key.
 
 key_dict = json.loads(st.secrets["textkey"])
 creds = service_account.Credentials.from_service_account_info(key_dict)
 db = firestore.Client(credentials=creds, project="substances-db")
+
+# interface_dic= load_lan(lang_main)
+
+column_order= ['sample_uid',
+                'date', 'organisation', 'service_type',
+                'country',
+                'city', 'geo_context', 'relationship',
+                'sold_as', 'sample_form',  'alias',
+                'colour', 'logo',  'width', 'height', 'used_prior', 'weight',  'thickness',
+               'test_method', 'alert',
+                'substance_1', 'subs1_quant',  'subs1_unit',
+               'substance_9', 'subs9_quant', 'subs9_unit',
+                'age',  'gender',
+               'unit_price',
+
+       ]
 
 # check for internet connection
 def check_internet_conn(url='https://elespectador.com', timeout=5):
@@ -52,14 +69,14 @@ def return_db(online=True):
             post = doc.to_dict()
             dict_to_df[post["sample_uid"]] = post
         db_full = pd.DataFrame.from_dict(dict_to_df).T
-        st.dataframe(db_full)
-        return dict_to_df
+        db_full = db_full[column_order]
+        return dict_to_df, db_full
     else:
         db_json = load_db()
 
         db_full = pd.DataFrame.from_dict(db_json).T
-        st.dataframe(db_full)
-        return db_json
+        db_full = db_full[column_order]
+        return db_json, db_full
 
 
 def post_to_db (dict_in, sample_id):
@@ -78,7 +95,7 @@ def post_to_db (dict_in, sample_id):
 
     else:
 
-        db_json = return_db()
+        db_json = return_db()[0]
 
         if sample_id in db_json:
             st.warning(f" ""Sample {sample_id} exists in the database,"
@@ -95,28 +112,28 @@ def post_to_db (dict_in, sample_id):
         st.write(f"Alert: {queried_alert}")
 
 
-def update_db():
+def update_db(lan_dict):
 
-    db_df = return_db()
+    db_df = return_db()[0]
 
-    st.markdown("# Update db")
+    st.markdown(f"# {lan_dict['update_db']}")
     # only let update samples without a result
     sample_id_list = [x for x in db_df if not db_df[x]["substance_1"]]
-    id_update = st.selectbox("select id to be updated", sample_id_list)
+    id_update = st.selectbox(lan_dict['select_update'], sample_id_list)
 
-    result_update = st.text_input(f"Update {id_update} substance_1 result: ")
+    result_update = st.text_input(f"{lan_dict['update_input']} {id_update}: ")
 
+    with st.form(lan_dict['update_button']):
 
-    with st.form("Update"):
-
-        submit2 = st.form_submit_button("Update")
+        submit2 = st.form_submit_button(lan_dict['update_button'])
 
         if submit2:
 
             st.text("[ronts")
 
             if check_internet_conn():
-                if db_df[id_update]["substance_1"] != None:
+
+                if db_df[id_update]["substance_1"]:
                     st.warning(f"{id_update} > {result_update} has a result!")
                 db_df[id_update]["substance_1"]
                 pass
