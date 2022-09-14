@@ -18,7 +18,7 @@ def load_image(image_file):
     return img
 
 
-def main_form(username):
+def tedi_form(username):
 
     lang_main = orga_dict[username]["lan"]
 
@@ -54,9 +54,8 @@ def main_form(username):
 
         with col1:
             date = str(st.date_input(GUIDELINES["date"]["VARIABLE_NAME"], key="1"))
-            organisation = interface_dic['organization']
-            st.markdown(f"##### {organisation}")
-            st.markdown(f"#### {orga_dict[username]['name']}")
+            st.markdown(f"##### {interface_dic['organization']}")
+            organisation = st.markdown(f"#### {orga_dict[username]['name']}")
             country = st.selectbox(GUIDELINES["country"]["VARIABLE_NAME"], options=country_list, key="4")
             city = st.text_input( GUIDELINES["city"]["VARIABLE_NAME"] , key=" 5")
             sold_as = st.text_input(GUIDELINES["sold_as"]["VARIABLE_NAME"] , key="8")
@@ -68,7 +67,7 @@ def main_form(username):
             used_prior = st.checkbox(GUIDELINES["used_prior"]["VARIABLE_NAME"], key="10")
             logo = st.text_input(GUIDELINES["logo"]["VARIABLE_NAME"], key="13")
             st.info(f"### {interface_dic['sample_id']}: {sample_id_pre}")
-            sample_uid = st.text_input(GUIDELINES["sample_uid"]["VARIABLE_NAME"] , key="11")
+            sample_uid = st.text_input(GUIDELINES["sample_uid"]["VARIABLE_NAME"] , key="2")
 
         with col2:
 
@@ -79,7 +78,7 @@ def main_form(username):
             unit_price = st.number_input(GUIDELINES["unit_price"]["VARIABLE_NAME"])
             price_currency = st.text_input(GUIDELINES["price_currency"]["VARIABLE_NAME"], key="18")
             gender = st.selectbox(GUIDELINES["gender"]["VARIABLE_NAME"], options=GUIDELINES["gender"]["VOCABULARY"], key="19")
-            age = st.number_input(GUIDELINES["age"]["VARIABLE_NAME"], key="20")
+            age = st.number_input(GUIDELINES["age"]["VARIABLE_NAME"],min_value=0, max_value=99,  step=1, key="20")
             test_method = st.selectbox(GUIDELINES["test_method"]["VARIABLE_NAME"], options=GUIDELINES["test_method"]["VOCABULARY"], key="21")
             service_type = st.text_input(GUIDELINES["service_type"]["VARIABLE_NAME"], key="22")
             substance_1 = st.text_input(GUIDELINES["substance_1"]["VARIABLE_NAME"] , key="23")
@@ -94,7 +93,7 @@ def main_form(username):
         submit = st.form_submit_button(f" {interface_dic['submit_samp']}")
 
         dic_set = {
-            sample_uid: {"date": date, "organisation": str(organisation), "sample_uid": sample_uid,
+            sample_uid: {"date": date, "organisation": orga_dict[username]['name'], "sample_uid": sample_uid,
                          "country": country, "city": city, "geo_context": geo_context, "relationship": provider_relation,
                          "sold_as": sold_as, "alias": alias, "used_prior": used_prior, "sample_form": sample_form,
                          "colour": colour, "logo": logo, "width": width, "thickness": thickness, "height": height,
@@ -124,21 +123,21 @@ def main_form(username):
                 # missing_fields = [c for c in [sample_uid and organisation and sample_form and substance_1] if c in required_fields]
                 st.warning(f"{interface_dic['warning_req_fields']} \n {missing_fields}")
 
-        st.markdown("##")
-        st.subheader(interface_dic['upload_img'])
-        image_file = st.file_uploader("Upload Images", type=["png", "jpg", "jpeg"])
-        if image_file:
-            if st.button(interface_dic['confirm_upload']):
-                pic_pil = load_image(image_file)
-                pic_ext = image_file.type.split("/")[1]
-                pic_pil.save(os.path.join("../images_db", f"{sample_uid}.PNG"))
-                st.success(f" {interface_dic['saved_img']} `{sample_uid}.{pic_ext}`")
-        st.markdown("##")
+    st.markdown("##")
+    st.subheader(interface_dic['upload_img'])
+    image_file = st.file_uploader("Upload Images", type=["png", "jpg", "jpeg"])
+    if image_file:
+        if st.button(interface_dic['confirm_upload']):
+            pic_pil = load_image(image_file)
+            pic_ext = image_file.type.split("/")[1]
+            pic_pil.save(os.path.join("../images_db", f"{sample_uid}.PNG"))
+            st.success(f" {interface_dic['saved_img']} `{sample_uid}.{pic_ext}`")
+    st.markdown("##")
 
-        if st.button(interface_dic['show_db']):
-            return_db()
+    if st.button(interface_dic['show_db']):
+        return_db()
 
-        update_db()
+    update_db()
 
     # # Then get the data at that reference.
     # doc = doc_ref.get()

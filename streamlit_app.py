@@ -2,7 +2,7 @@
 import streamlit as st
 import json
 import streamlit_authenticator as stauth
-from pages.tedi import tedi_form
+from tedi_form import tedi_form
 
 
 # watch out for the incompatibility of bcrypt https://github.com/matrix-org/synapse/pull/2288
@@ -31,4 +31,4 @@ elif authentication_status == None:
     st.error('Username/password is incorrect')
 
 
-st.sidebar.markdown("# Main page")
+# st.sidebar.markdown("# Main page")
