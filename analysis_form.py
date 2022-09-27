@@ -1,4 +1,3 @@
-
 import streamlit as st
 import uuid
 import pycountry
@@ -8,6 +7,7 @@ from PIL import Image
 from lib.orga_lib import load_orga_lib
 from lan.load_lan import load_lan
 
+
 orga_dict = load_orga_lib()
 
 
@@ -16,7 +16,7 @@ def load_image(image_file):
     return img
 
 
-def tedi_form(username):
+def analysis_form(username):
 
     lang_main = orga_dict[username]["lan"]
 
@@ -51,36 +51,18 @@ def tedi_form(username):
         col1, col2 = st.columns(2)
 
         with col1:
-            date = str(st.date_input(GUIDELINES["date"]["VARIABLE_NAME"], key="1"))
             st.markdown(f"##### {interface_dic['organization']}")
-            organisation = st.markdown(f"#### {orga_dict[username]['name']}")
-            country = st.selectbox(GUIDELINES["country"]["VARIABLE_NAME"], options=country_list, key="4")
-            city = st.text_input( GUIDELINES["city"]["VARIABLE_NAME"] , key=" 5")
-            sold_as = st.text_input(GUIDELINES["sold_as"]["VARIABLE_NAME"] , key="8")
-            sample_form = st.text_input(GUIDELINES["sample_form"]["VARIABLE_NAME"] , key="11")
-            colour = st.text_input(GUIDELINES["colour"]["VARIABLE_NAME"], key="12")
-            geo_context = st.text_area(GUIDELINES["geo_context"]["VARIABLE_NAME"], key="6")
-            provider_relation = st.text_area(GUIDELINES["provider_relation"]["VARIABLE_NAME"], key=" 7")
-            alias = st.text_input(GUIDELINES["alias"]["VARIABLE_NAME"], key="9")
-            used_prior = st.checkbox(GUIDELINES["used_prior"]["VARIABLE_NAME"], key="10")
-            logo = st.text_input(GUIDELINES["logo"]["VARIABLE_NAME"], key="13")
-            st.info(f"### {interface_dic['sample_id']}: {sample_id_pre}")
-            sample_uid = st.text_input(GUIDELINES["sample_uid"]["VARIABLE_NAME"] , key="2")
-
-        with col2:
-
             width = st.number_input(GUIDELINES["width"]["VARIABLE_NAME"], key="14")
             thickness = st.number_input(GUIDELINES["thickness"]["VARIABLE_NAME"], key="15")
             height = st.number_input(GUIDELINES["height"]["VARIABLE_NAME"], key="16")
             weight = st.number_input(GUIDELINES["weight"]["VARIABLE_NAME"], key="17")
-            unit_price = st.number_input(GUIDELINES["unit_price"]["VARIABLE_NAME"])
-            price_currency = st.text_input(GUIDELINES["price_currency"]["VARIABLE_NAME"], key="18")
-            gender = st.selectbox(GUIDELINES["gender"]["VARIABLE_NAME"], options=GUIDELINES["gender"]["VOCABULARY"], key="19")
-            age = st.number_input(GUIDELINES["age"]["VARIABLE_NAME"],min_value=0, max_value=99,  step=1, key="20")
             test_method = st.selectbox(GUIDELINES["test_method"]["VARIABLE_NAME"], options=GUIDELINES["test_method"]["VOCABULARY"], key="21")
             service_type = st.text_input(GUIDELINES["service_type"]["VARIABLE_NAME"], key="22")
             substance_1 = st.text_input(GUIDELINES["substance_1"]["VARIABLE_NAME"] , key="23")
             subs1_quant = st.text_input(GUIDELINES["subs1_quant"]["VARIABLE_NAME"], key="24")
+
+        with col2:
+
             subs1_unit = st.text_input(GUIDELINES["subs1_unit"]["VARIABLE_NAME"], key="25")
             substance_9 = st.text_input(GUIDELINES["substance_9"]["VARIABLE_NAME"], key="26")
             subs9_quant = st.text_input(GUIDELINES["subs9_quant"]["VARIABLE_NAME"], key="27")
@@ -91,11 +73,9 @@ def tedi_form(username):
         submit = st.form_submit_button(f" {interface_dic['submit_samp']}")
 
         dic_set = {
-            sample_uid: {"date": date, "organisation": orga_dict[username]['name'], "sample_uid": sample_uid,
-                         "country": country, "city": city, "geo_context": geo_context, "relationship": provider_relation,
-                         "sold_as": sold_as, "alias": alias, "used_prior": used_prior, "sample_form": sample_form,
-                         "colour": colour, "logo": logo, "width": width, "thickness": thickness, "height": height,
-                         "weight": weight, "unit_price": unit_price, "gender": gender, "age": age,
+            sample_uid: {"organisation": orga_dict[username]['name'], "sample_uid": sample_uid,
+                          "width": width, "thickness": thickness, "height": height,
+                         "weight": weight,
                          "test_method": test_method, "service_type": service_type, "substance_1": substance_1,
                          "subs1_quant": subs1_quant, "subs1_unit": subs1_unit, "substance_9": substance_9,
                          "subs9_quant": subs9_quant, "subs9_unit": subs9_unit, "alert": alert}
@@ -137,10 +117,3 @@ def tedi_form(username):
         st.dataframe(return_db()[1])
 
     update_db(interface_dic)
-
-    # # Then get the data at that reference.
-    # doc = doc_ref.get()
-    #
-    # # Let's see what we got!
-    # st.write("The id is: ", doc.id)
-    # st.write("The contents are: ", doc.to_dict())

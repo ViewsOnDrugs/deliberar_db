@@ -33,14 +33,14 @@
         "VARIABLE_NAME": "Contexto geogr\u00e1fico (d\u00f3nde fue obtenida la muestra)",
         "DESCRIPTION": "Una lista de contextos geogr\u00e1ficos de los que podr\u00eda proceder una muestra. Por ejemplo, \"Un festival de m\u00fasica\", \"una calle\",",
         "TYPE": "controlled vocabulary",
-        "VOCABULARY": [],
+        "VOCABULARY": ["Punto Semifijo/Espacio de consum", "Punto Móvil", "Punto Fijo o Tiendita "],
         "REQUIREMENT_LEVEL": "recommended"
     },
     "provider_relation": {
         "VARIABLE_NAME": "Relaci\u00f3n con el proveedor",
         "DESCRIPTION": "Una lista de opciones, como \"un amigo\", \"un desconocido\", \"en l\u00ednea\". Esto es m\u00e1s importante que el contexto geogr\u00e1fico.",
         "TYPE": "controlled vocabulary",
-        "VOCABULARY": [],
+        "VOCABULARY": ["Dealer"," Persona cercana (amigo, pariente, conocido)", "Me lo regalaron o la encontré", "Tienda de parafernalia o smokeshop’s"],
         "REQUIREMENT_LEVEL": "recommended"
     },
     "sold_as": {
@@ -208,7 +208,7 @@
     },
     "_interface": {
         "warning": "Prueba enviada sin resultado de la Sustancia-1",
-        "form_tittle": "Formulario Checkeo de Sustancias",
+        "form_tittle": "Formulario Análisis de Sustancias",
         "organization": "Organización",
         "sample_id": "Id de la muestra",
         "req_field": "* Campo requerido",
