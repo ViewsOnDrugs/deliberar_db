@@ -1,6 +1,6 @@
-# TEDI streamlit form for data collection, storing, and sharing
+# PAS streamlit form for data collection, storing, and sharing
 
-This repository hosts a prototype of the TEDI data collection tool developed for the NGO [Deliberar](https://deliberar.org/).
+This repository hosts a prototype of a data collection tool developed for the Substance Analysis Project PAS from [Deliberar](https://deliberar.org/).
 As a proof of concept, it implements the [expanded version](https://github.com/harmreduction/tedi_guidelines/blob/main/README.md) of the TEDI guidelines
 
 It uses Streamlit as the python library for the form and Google Firebase for the data storage
