@@ -112,7 +112,7 @@ def news_form(username):
     with tedi_fieds_1["placeholder_city"]:
         country_cities = [""]+[cities_all[x]['name'] for x in cities_all if
                           cities_all[x]['countrycode'] == tedi_fieds_1["country"]]
-        tedi_fieds_1["city"] = st.selectbox(core_guidelines["city"]["VARIABLE_NAME"], options=country_cities, key=" 5")
+        tedi_fieds_1["city"] = st.selectbox(core_guidelines["city"]["VARIABLE_NAME"], options=country_cities, key="6")
 
     ## render multi options
     render_other(tedi_fieds_1, ["placeholder_sold_as",  "placeholder_other_sold_as"],
@@ -127,10 +127,10 @@ def news_form(username):
                  ["price_currency"], core_guidelines, interface_dic, 3)
 
     render_other(news_fields, ["placeholder_reasons_dc_visit", "placeholder_other_reasons_dc_visit"]
-                 ,  ["reasons_dc_visit"], news_guidelines, interface_dic, 4)
+                 ,  ["reasons_dc_visit"], news_guidelines, interface_dic, "4b")
 
     render_other(tedi_fieds_2, ["placeholder_provider_relation", "placeholder_other_provider_relation"]
-                 ,  ["provider_relation"], core_guidelines, interface_dic, 5)
+                 ,  ["provider_relation"], core_guidelines, interface_dic, "5b")
 
 
     # conditional fields
