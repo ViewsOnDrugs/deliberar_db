@@ -1,0 +1,21 @@
+_interface: &interface
+  confirm_upload: Klicken Sie, um das Bild hochzuladen.
+  form_tittle: Formular für die Stoffanalyse
+  organization: Organisation
+  req_field: Erforderliches Feld
+  sample_id: Probe-ID
+  saved_img: Erfolgreich hochgeladenes Bild
+  select_update: Zu aktualisierende ID auswählen
+  show_db: Datenbank anzeigen
+  submit_samp: Probe einreichen
+  submit_pre: Daten übermitteln
+  submit_form: Formular abschicken
+  update_button: Aktualisieren
+  update_db: Datenbank aktualisieren
+  update_input: Ergebnis der Aktualisierung der ID
+  upload_img: Bild hochladen
+  warning: Test ohne Ergebnis von Substanz-1 gesendet
+  warning_req_fields: Erforderliche Musterfelder fehlen
+  other_option: Andere Option
+  other: Andere
+  yes_trigger: Ja

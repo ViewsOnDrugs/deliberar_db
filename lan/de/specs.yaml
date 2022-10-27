@@ -1,0 +1,410 @@
+
+references:
+ other: &other Andere
+ no_answer: &no_answer ""
+ yes_trigger: &yes_trigger Ja
+ substances: &substances
+    - *no_answer
+    - MDMA (Extasis, Molly, Ema)
+    - LSD (Acid, Trip)
+    - Methamphetamin (Cristal, Cris, Meth)
+    - Kokain (Koks)
+    - Crack ()
+    - 2CB (Tusi, Tusibi)
+    - Heroin (H)
+    - Unbekannt
+    - *other
+ via_admin: &via_admin
+   - *no_answer
+   - Oral
+   - Sublingual
+   - Geschnaubt
+   - Inhaliert
+   - Geräuchert
+   - Eingespritzt
+   - Anal
+   - *other
+ use_frequency: &use_frequency
+   - *no_answer
+   - Mehr als einmal pro Woche
+   - Einmal pro Woche
+   - Einmal im Monat
+   - Einmal alle 3 Monate
+   - Einmal im Jahr
+   - Niemals
+ yes_no_answer: &yes_no_answer
+   - *no_answer
+   - Nein
+   - *yes_trigger
+ effects_list: &effects_list
+   - *no_answer
+   - Appetitlosigkeit
+   - Schlaflosigkeit
+   - Tachykardie
+   - Fieber
+   - Husten
+   - Vergesslichkeit
+   - Zittern
+   - Depression
+   - Ängstlichkeit
+   - Schwitzen
+   - Unwillkürliche Bewegungen
+   - Nervosität
+   - Halluzinationen
+   - Allergische Reaktionen
+   - Halsweh
+   - Infektion der Haut
+   - Schwierigkeiten beim Atmen
+   - Lethargie
+   - Desorientierung
+   - Ängstlichkeit/Paranoia
+   - Übelkeit/Erbrechen
+   - *other
+ reasons_analysis: &reasons_analysis
+   - *no_answer
+   - unter neuem Namen verkauft
+   - unter neuer Aufmachung/Verpackung verkauft
+   - wirkt stärker als erwartet
+   - wirkt schwächer als erwartet/wirkt gar nicht. wirkt qualitativ anders als erwartet (2 B. sedierend statt aufputschend o.ä.), und zwar
+   - hat unerwartete/besonders heftige Nebenwirkungen, und zwar
+   - hat zu einem schweren, potenziell lebensbedrohlichen Notfall geführt, und zwar
+   - *other
+ harmred_strategies: &harmred_strategies
+   - *no_answer
+   - Forschung zu Wirkungen, Dosen und Risiken des Stoffes
+   - Planung der zu verwendenden Substanz und Vermeidung der Verwendung unbekannter Substanzen c) Kenntnis des Inhalts der gekauften Substanz
+   - Niedrige Dosen konsumieren und den Gebrauch hoher Dosen vermeiden
+   - Stoffe über risikoarme Verabreichungswege konsumieren
+   - Festlegung einer Höchstmenge für die zu konsumierende Substanz
+   - Vor und nach dem Konsum einer Substanz richtig essen h) Während des Konsums Wasser trinken
+   - Vermeiden Sie das Mischen von (legalen und illegalen) Substanzen.
+   - Distanzierung von Sitzungen zum Drogenkonsum
+   - *other
+
+TEDI:
+  age:
+    DESCRIPTION: Alter in Jahren des Nutzers
+    REQUIREMENT_LEVEL: recommended
+    TYPE: number
+    VARIABLE_NAME: Alter
+  alert:
+    DESCRIPTION: Wenn eine Warnung veröffentlicht wurde
+    REQUIREMENT_LEVEL: required
+    TYPE: bool
+    VARIABLE_NAME: Warnung veröffentlicht
+  alias:
+    DESCRIPTION:  Name, unter dem die Substanz gekauft wurde
+    REQUIREMENT_LEVEL: optional
+    TYPE: text
+    VARIABLE_NAME:  Name, unter dem die Substanz gekauft wurde
+  city:
+    DESCRIPTION: Stadt wo die Probe abgegeben wurde
+    REQUIREMENT_LEVEL: required
+    TYPE: text
+    VARIABLE_NAME: Stadt
+  colour:
+    DESCRIPTION: Farbe der Substanz
+    REQUIREMENT_LEVEL: required
+    TYPE: text
+    VARIABLE_NAME: Farbe
+  country:
+    DESCRIPTION: Land wo die Probe abgegeben wurde
+    REQUIREMENT_LEVEL: required
+    TYPE: text
+    VARIABLE_NAME: Land
+  date:
+    DESCRIPTION: Datum der Probenentnahme
+    REQUIREMENT_LEVEL: required
+    TYPE: timestamp
+    VARIABLE_NAME: Datum (AAAA-MM-DD)
+  gender:
+    DESCRIPTION: Geschlecht, mit dem sich die Person identifiziert
+    REQUIREMENT_LEVEL: recommended
+    TYPE: vocabulary set
+    VARIABLE_NAME: Geschlecht
+    VOCABULARY:
+    - *no_answer
+    - Nicht-binär
+    - Weiblich
+    - Männlich
+    - *other
+  geo_context:
+    DESCRIPTION: Eine Liste von geografischen Kontexten, aus denen eine Probe stammen könnte.
+      Zum Beispiel "Ein Musikfestival", "eine Straße", ...
+    REQUIREMENT_LEVEL: recommended
+    TYPE: vocabulary set
+    VARIABLE_NAME: geografischen Kontexten, aus denen die Probe stammen könnte
+    VOCABULARY:
+     - *no_answer
+     - Semi-Fixpunkt/Verbrauchsraum
+     - Mobiler Punkt
+     - Festpunkt oder Geschäft
+     - Straße
+  height:
+    DESCRIPTION: (Pastillas/manchas, no polvos, etc.)
+    REQUIREMENT_LEVEL: recommended
+    TYPE: number
+    VARIABLE_NAME: Hohe (mm)
+  image:
+    DESCRIPTION: Bild der Probe
+    REQUIREMENT_LEVEL: optional
+    TYPE: binary
+    VARIABLE_NAME: Bild
+  logo:
+    DESCRIPTION: (Pastillas/manchas, no polvos, etc.)
+    REQUIREMENT_LEVEL: recommended
+    TYPE: text
+    VARIABLE_NAME: Logo
+  organisation:
+    DESCRIPTION: Der Name der Organisation, die die Daten erhebt
+    REQUIREMENT_LEVEL: required
+    TYPE: text
+    VARIABLE_NAME: Organisation
+  price_currency:
+    DESCRIPTION: Währung, in der der Stoff erworben wurde
+    REQUIREMENT_LEVEL: recommended
+    TYPE: vocabulary set
+    VARIABLE_NAME: Währung
+    VOCABULARY:
+      - ""
+      - Eur
+      - USD
+      - Pfund
+      - *other
+  provider_relation:
+    DESCRIPTION: Eine Liste von Optionen, z. B. "ein Freund", "ein Fremder", "online".
+      Dies ist wichtiger als der geografische Kontext.
+    REQUIREMENT_LEVEL: recommended
+    TYPE: vocabulary set
+    VARIABLE_NAME: Bezugsquelle
+    VOCABULARY:
+    - ""
+    - Freund*in/Bekannter
+    - Familie/Partner"in
+    - Dealer in Headshop, und zwar
+    - Darknet/Krypto-Website, und zwar
+    - Bezugsquelle aus dem Internet, und zwar
+    - *other
+  sample_form:
+    DESCRIPTION: (Darreichungs-)Form
+    REQUIREMENT_LEVEL: required
+    TYPE: vocabulary set
+    VARIABLE_NAME: (Darreichungs-)Form
+    VOCABULARY:
+    - ""
+    - Gras bzw. getrocknete Pflanzenteile
+    - Kräuter-/Räuchermischung
+    - Harz
+    - Öl
+    - (E-)Liquid
+    - Pulver
+    - Tablette
+    - Kapseln
+    - Trip
+    - Kristall
+    - *other
+  sample_uid:
+    DESCRIPTION: Ein einheitlicher Identifikationswert für die Probe
+    REQUIREMENT_LEVEL: required
+    TYPE: uuid
+    VARIABLE_NAME: Probe ID
+  service_type:
+    DESCRIPTION: Der Kontext des Dienstes, z. B. "Musikveranstaltung" oder "Konsumraum".
+    REQUIREMENT_LEVEL: recommended
+    TYPE: vocabulary set
+    VARIABLE_NAME: Art des Dienstes
+    VOCABULARY:
+      - *no_answer
+      - Musikveranstaltung
+      - Konsumraum
+      - Festival
+      - Bar
+      - Festpunkt Substanzprobenanalyse
+      - Mobiler Punkt Substanzprobenanalyse
+  sold_as:
+    DESCRIPTION: Inhaltsstoffe laut Verkäufer*in
+    REQUIREMENT_LEVEL: required
+    TYPE: vocabulary set
+    VARIABLE_NAME: Inhaltsstoffe laut Verkäufer*n
+    VOCABULARY: *substances
+  subs1_quant:
+    DESCRIPTION: El valor numérico de la cuantificación (si está cuantificado). Excluye
+      las unidades, sólo los datos numéricos
+    REQUIREMENT_LEVEL: recommended
+    TYPE: number
+    VARIABLE_NAME: Cantidad Sust-1
+  subs1_unit:
+    DESCRIPTION: Las unidades de la cuantificación (si se cuantifica)
+    REQUIREMENT_LEVEL: recommended
+    TYPE: text
+    VARIABLE_NAME: Unidad Sust-1
+  subs9_quant:
+    DESCRIPTION: ''
+    REQUIREMENT_LEVEL: optional
+    TYPE: number
+    VARIABLE_NAME: Cantidad Sust-9
+  subs9_unit:
+    DESCRIPTION: ''
+    REQUIREMENT_LEVEL: optional
+    TYPE: text
+    VARIABLE_NAME: Unidad Sust-9
+  substance_1:
+    DESCRIPTION: La identidad de la primera sustancia detectada
+    REQUIREMENT_LEVEL: required
+    TYPE: vocabulary set
+    VARIABLE_NAME: Sustancia-1
+    VOCABULARY: *substances
+  substance_9:
+    DESCRIPTION: Hay 9 columnas en total, para permitir la detección de mezclas. Para
+      simplificar, en este documento no se muestran las columnas 2-8
+    REQUIREMENT_LEVEL: optional
+    TYPE: text
+    VARIABLE_NAME: Sustancia-9
+  test_method:
+    DESCRIPTION: El método analítico utilizado para obtener el resultado
+      (si se utilizan varios métodos, introduzca el más sofisticado)
+    REQUIREMENT_LEVEL: required
+    TYPE: vocabulary set
+    VARIABLE_NAME: Metodo de la prueba
+    VOCABULARY:
+    - REAGENT TESTING
+    - ANTIBODY TEST STRIPS
+    - TLC
+    - UV SPECTROSCOPY
+    - FTIR/ RAMAN
+    - (U)HPLC-UV
+    - (U)HPLC-MS
+    - GC-MS
+    - DIRECT MS
+    - LC-HRMS
+  thickness:
+    DESCRIPTION: (Pastillas/manchas, no polvos, etc.)
+    REQUIREMENT_LEVEL: recommended
+    TYPE: number
+    VARIABLE_NAME: Grosor (mm)
+  unit_price:
+    DESCRIPTION: Preis der bezogenen Substanz
+    REQUIREMENT_LEVEL: recommended
+    TYPE: number
+    VARIABLE_NAME: Preis der bezogenen Substanz
+  unit_substance:
+    DESCRIPTION: Einheit eintragen. z.B. 0.5 Gramm oder 1 Pille oder...
+    REQUIREMENT_LEVEL: recommended
+    TYPE: vocabulary set
+    VARIABLE_NAME: Einheit eintragen. z.B. 0.5 Gramm oder 1 Pille oder...
+    VOCABULARY:
+      - *no_answer
+      - Gramm
+      - Pille
+      - *other
+  used_prior:
+    DESCRIPTION: Si la muestra fue consumida por el usuario del servicio o por un amigo
+      cercano antes de someterla a la prueba
+    REQUIREMENT_LEVEL: recommended
+    TYPE: bool
+    VARIABLE_NAME: Muestra usada antes de la prueba
+    VOCABULARY: *yes_no_answer
+  weight:
+    DESCRIPTION: (Pastillas/manchas, no polvos, etc.)
+    REQUIREMENT_LEVEL: recommended
+    TYPE: number
+    VARIABLE_NAME: Peso (mg)
+  width:
+    DESCRIPTION: (Pastillas/manchas, no polvos, etc.)
+    REQUIREMENT_LEVEL: recommended
+    TYPE: number
+    VARIABLE_NAME: Longitud (mm)
+
+NEWS:
+  use_form:
+    DESCRIPTION: Forma regular de consumo de la sustancia
+    REQUIREMENT_LEVEL: recommended
+    TYPE: vocabulary set
+    VARIABLE_NAME: Vía de consumo
+    VOCABULARY: *via_admin
+  use_frequency:
+    DESCRIPTION: Häufigkeit des Substanzgebrauchs
+    REQUIREMENT_LEVEL: recommended
+    TYPE: vocabulary set
+    VARIABLE_NAME: Häufigkeit des Substanzgebrauchs
+    VOCABULARY: *use_frequency
+  effect_unexpected:
+    DESCRIPTION: Presencia efectos inesperados del consumo de la sustancia
+    REQUIREMENT_LEVEL: recommended
+    TYPE: bool
+    VARIABLE_NAME: Has tenido efectos insesperados al consumir la sustancia
+    VOCABULARY: *yes_no_answer
+  effects:
+    DESCRIPTION: Efectos inesperados del consumo de la sustancia
+    REQUIREMENT_LEVEL: recommended
+    TYPE: vocabulary set
+    VARIABLE_NAME: Efectos insesperados al consumir la sustancia
+    VOCABULARY: *effects_list
+  overdose:
+    DESCRIPTION: Sobredósis
+    REQUIREMENT_LEVEL: recommended
+    TYPE: vocabulary set
+    VARIABLE_NAME: En alguna ocasión has tenido una sobredosis situación en la que te desmayaste y no pudiste despertar o tus labios se te pusieron azules, tensión o rigidez muscular, convulsiones, perdida de la conciencia, ansiedad o paranoia en extremo.
+    VOCABULARY: *yes_no_answer
+  suspected_od_substance:
+    DESCRIPTION: Presunta sustancia causante de sobredósis
+    REQUIREMENT_LEVEL: recommended
+    TYPE: vocabulary set
+    VARIABLE_NAME: Por cuál sustancia crees que fue la causa de la sobredósis
+    VOCABULARY: *substances
+  awareness_dc_services:
+    DESCRIPTION: Conocimiento previo PAS
+    REQUIREMENT_LEVEL: recommended
+    TYPE: vocabulary set
+    VARIABLE_NAME: Sabes qué son los servicios, programas y estrategias de reducción de riesgos y daños asociados al uso de sustancias psicoactivas
+    VOCABULARY: *yes_no_answer
+  previous_use_dc:
+    DESCRIPTION: Uso previo servicios PAS
+    REQUIREMENT_LEVEL: recommended
+    TYPE: vocabulary set
+    VARIABLE_NAME: Habías utilizado el servicio de análisis de sustancias previamente
+    VOCABULARY: *yes_no_answer
+  reasons_dc_visit:
+    DESCRIPTION: Warum die Substanz eingeschickt wird
+    REQUIREMENT_LEVEL: recommended
+    TYPE: vocabulary set
+    VARIABLE_NAME:  Warum wird die Substanz eingeschickt?
+    VOCABULARY: *reasons_analysis
+  knowledge_harmreduction:
+    DESCRIPTION: Conocimiento reducción de riesgos y daños
+    REQUIREMENT_LEVEL: recommended
+    TYPE: vocabulary set
+    VARIABLE_NAME: Cuál(es) de las siguientes estrategias de reducción de riesgos y daños utilizas cuando consumes alguna sustancia
+    VOCABULARY: *harmred_strategies
+  use_intention_positiv_result:
+    DESCRIPTION: Intención de uso resultado positivo
+    REQUIREMENT_LEVEL: recommended
+    TYPE: vocabulary set
+    VARIABLE_NAME: Si la sustancia encontrada en el análisis es la sustancia esperada, ¿decidirías consumirla?
+    VOCABULARY: *yes_no_answer
+  use_intention_negativ_result:
+    DESCRIPTION: Intención de uso resultado positivo
+    REQUIREMENT_LEVEL: recommended
+    TYPE: vocabulary set
+    VARIABLE_NAME: Si la sustancia encontrada en el análisis es diferente a la sustancia esperada, ¿decidirías consumirla?
+    VOCABULARY: *yes_no_answer
+  service_perception_1:
+    DESCRIPTION: Percepción del servicio 1
+    REQUIREMENT_LEVEL: recommended
+    TYPE: vocabulary set
+    VARIABLE_NAME: Recomendarías el servicio de análisis de sustancias
+    VOCABULARY: *yes_no_answer
+  service_perception_2:
+    DESCRIPTION: Percepción del servicio 2
+    REQUIREMENT_LEVEL: recommended
+    TYPE: vocabulary set
+    VARIABLE_NAME: Volverías a usar un servicio de análisis de sustancias
+    VOCABULARY: *yes_no_answer
+  service_perception_3:
+    DESCRIPTION: Percepción del servicio 3
+    REQUIREMENT_LEVEL: recommended
+    TYPE: vocabulary set
+    VARIABLE_NAME: Consideras que este tipo de servicio de salud debería ser accesible en instituciones públicas-
+    VOCABULARY: *yes_no_answer
+
+

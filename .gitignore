@@ -6,3 +6,5 @@ key-to-toml.py
 *.ipynb
 __pycache__/
 local_db.json
+playground.py
+.DS_Store

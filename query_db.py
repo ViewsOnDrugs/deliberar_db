@@ -14,6 +14,12 @@ db = firestore.Client(credentials=creds, project="substances-db")
 
 # interface_dic= load_lan(lang_main)
 
+analysis_init = {'width': '', 'height': '', 'weight': '',
+                 'thickness': '', 'test_method': '',
+                 'alert': '', 'substance_1': '', 'subs1_quant': '',
+                 'subs1_unit': '', 'substance_9': '', 'subs9_quant': '',
+                 'subs9_unit': '', }
+
 column_order= ['sample_uid',
                 'date', 'organisation', 'service_type',
                 'country',
@@ -55,7 +61,7 @@ def load_db():
             json.dump(json_data, ldb, indent=4)
     return json_data
 
-def return_db(online=True):
+def return_db(collection_name, online=True):
     """
 
     :param online:
@@ -63,23 +69,23 @@ def return_db(online=True):
     """
     if check_internet_conn():
         # And then render each post, using some light Markdown
-        posts_ref = db.collection("substances")
+        posts_ref = db.collection(collection_name)
         dict_to_df = {}
         for doc in posts_ref.stream():
             post = doc.to_dict()
             dict_to_df[post["sample_uid"]] = post
         db_full = pd.DataFrame.from_dict(dict_to_df).T
-        db_full = db_full[column_order]
+        db_full = db_full
         return dict_to_df, db_full
     else:
         db_json = load_db()
 
         db_full = pd.DataFrame.from_dict(db_json).T
-        db_full = db_full[column_order]
+        db_full = db_full # add column_order to render fixed order
         return db_json, db_full
 
 
-def post_to_db (dict_in, sample_id):
+def post_to_db (dict_in, sample_id, collection_name):
     """
 
     :param dict_in:
@@ -89,13 +95,13 @@ def post_to_db (dict_in, sample_id):
 
     if check_internet_conn():
         # Create a reference to the Google post.
-        doc_ref = db.collection("substances").document(sample_id)
+        doc_ref = db.collection(collection_name).document(sample_id)
         doc_ref.set(dict_in[sample_id])
         st.text(F"Sample {sample_id} was successfully submitted")
 
     else:
 
-        db_json = return_db()[0]
+        db_json = return_db(collection_name)[0]
 
         if sample_id in db_json:
             st.warning(f" ""Sample {sample_id} exists in the database,"
@@ -112,9 +118,9 @@ def post_to_db (dict_in, sample_id):
         st.write(f"Alert: {queried_alert}")
 
 
-def update_db(lan_dict):
+def update_db(lan_dict, collection_name):
 
-    db_df = return_db()[0]
+    db_df = return_db(collection_name)[0]
 
     st.markdown(f"# {lan_dict['update_db']}")
     # only let update samples without a result

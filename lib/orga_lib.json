@@ -7,8 +7,8 @@
   },
   "admin_vivid": {
     "name": "VIVID",
-    "head": "[<img src='https://vivid-hamburg.de/wp-content/uploads/2020/05/logo_lang.jpg'  style='object-fit:cover; object-position: center; width:200px; height:125px; border: solid 1px #CCC'/>](https://vivid-hamburg.de/)",
-    "lan" : "en",
+    "head": "[<img src='https://vivid-hamburg.de/wp-content/uploads/2020/05/logo_lang.jpg'  alt='drawing' width='350'/>](https://vivid-hamburg.de/)",
+    "lan" : "de",
     "country_first": "Germany"
   }
 }
