@@ -14,10 +14,16 @@ db = firestore.Client(credentials=creds, project="substances-db")
 
 # interface_dic= load_lan(lang_main)
 
+analysis_init = {'width': '', 'height': '', 'weight': '',
+                 'thickness': '', 'test_method': '',
+                 'alert': '', 'substance_1': '', 'subs1_quant': '',
+                 'subs1_unit': '', 'substance_9': '', 'subs9_quant': '',
+                 'subs9_unit': '', } 
+
 column_order= ['sample_uid',
                 'date', 'organisation', 'service_type',
                 'country',
-                'city', 'geo_context', 'relationship',
+                'city', 'geo_context', 'provider_relation',
                 'sold_as', 'sample_form',  'alias',
                 'colour', 'logo',  'width', 'height', 'used_prior', 'weight',  'thickness',
                'test_method', 'alert',
@@ -31,7 +37,6 @@ column_order= ['sample_uid',
 # check for internet connection
 def check_internet_conn(url='https://elespectador.com', timeout=5):
     """
-
     :param url: test url
     :param timeout: timeout
     :return:
@@ -57,7 +62,6 @@ def load_db():
 
 def return_db(online=True):
     """
-
     :param online:
     :return:
     """
@@ -67,9 +71,11 @@ def return_db(online=True):
         dict_to_df = {}
         for doc in posts_ref.stream():
             post = doc.to_dict()
-            dict_to_df[post["sample_uid"]] = post
+            if "sample_uid" in post:
+                dict_to_df[post["sample_uid"]] = post
         db_full = pd.DataFrame.from_dict(dict_to_df).T
-        db_full = db_full[column_order]
+        no_tedi_cols = [x for x in db_full if x not in column_order]
+        db_full = db_full[column_order + no_tedi_cols]
         return dict_to_df, db_full
     else:
         db_json = load_db()
@@ -81,7 +87,6 @@ def return_db(online=True):
 
 def post_to_db (dict_in, sample_id):
     """
-
     :param dict_in:
     :param sample_id:
     :return:

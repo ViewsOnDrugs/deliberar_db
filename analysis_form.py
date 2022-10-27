@@ -1,31 +1,33 @@
 import streamlit as st
-import uuid
 import pycountry
-from query_db import return_db, post_to_db, update_db
+from query_db import return_db, post_to_db
 import os
 from PIL import Image
 from lib.orga_lib import load_orga_lib
-from lan.load_lan import load_lan
+from lan.load_specs import load_specs
 
 
 orga_dict = load_orga_lib()
-
 
 def load_image(image_file):
     img = Image.open(image_file)
     return img
 
+current_db = return_db()[0]
+entered_id_s = [x for x in current_db if 'substance_1' in current_db[x]]
 
 def analysis_form(username):
 
     lang_main = orga_dict[username]["lan"]
 
     # Load TEDI guidelines
-    GUIDELINES = load_lan(lang_main)
+    lang_main = orga_dict[username]["lan"]
+    interface_dic = load_specs(lang_main, "interface")['_interface']
+    core_guidelines = load_specs(lang_main, "specs")["TEDI"]
+    deliberar_guidelines = load_specs(lang_main, "specs")['DELIBERAR']
 
-    interface_dic = GUIDELINES['_interface']
-
-    required_fields = [x for x in GUIDELINES if GUIDELINES[x]["REQUIREMENT_LEVEL"] == 'required']
+    required_core_fields = [x for x in core_guidelines if core_guidelines[x]["REQUIREMENT_LEVEL"] == 'required']
+    required_deliberar_fields = [x for x in deliberar_guidelines if deliberar_guidelines[x]["REQUIREMENT_LEVEL"] == 'required']
 
     country_list = [c.name for c in pycountry.countries]
 
@@ -46,60 +48,67 @@ def analysis_form(username):
         st.markdown(head1, unsafe_allow_html=True)
 
     with st.form("Sample Form"):
-        sample_id_pre = str(uuid.uuid4())[:8]
 
         col1, col2 = st.columns(2)
 
         with col1:
             st.markdown(f"##### {interface_dic['organization']}")
-            width = st.number_input(GUIDELINES["width"]["VARIABLE_NAME"], key="14")
-            thickness = st.number_input(GUIDELINES["thickness"]["VARIABLE_NAME"], key="15")
-            height = st.number_input(GUIDELINES["height"]["VARIABLE_NAME"], key="16")
-            weight = st.number_input(GUIDELINES["weight"]["VARIABLE_NAME"], key="17")
-            test_method = st.selectbox(GUIDELINES["test_method"]["VARIABLE_NAME"], options=GUIDELINES["test_method"]["VOCABULARY"], key="21")
-            service_type = st.text_input(GUIDELINES["service_type"]["VARIABLE_NAME"], key="22")
-            substance_1 = st.text_input(GUIDELINES["substance_1"]["VARIABLE_NAME"] , key="23")
-            subs1_quant = st.text_input(GUIDELINES["subs1_quant"]["VARIABLE_NAME"], key="24")
+
+            analysis_update={
+
+            "place_holder_sample_uid": st.empty(),
+            "width": st.number_input(core_guidelines["width"]["VARIABLE_NAME"]),
+            "thickness": st.number_input(core_guidelines["thickness"]["VARIABLE_NAME"]),
+            "height": st.number_input(core_guidelines["height"]["VARIABLE_NAME"]),
+            "weight": st.number_input(core_guidelines["weight"]["VARIABLE_NAME"]),
+            "test_method": st.selectbox(core_guidelines["test_method"]["VARIABLE_NAME"],
+                                       options=core_guidelines["test_method"]["VOCABULARY"]),
+            "service_type": st.selectbox(core_guidelines["service_type"]["VARIABLE_NAME"],
+                                         options=core_guidelines["service_type"]["VOCABULARY"]),
+            "substance_1": st.selectbox(core_guidelines["substance_1"]["VARIABLE_NAME"],
+                                                   options=core_guidelines["substance_1"]["VOCABULARY"]),
+            "subs1_quant": st.text_input(core_guidelines["subs1_quant"]["VARIABLE_NAME"], key="24")
+            }
 
         with col2:
 
-            subs1_unit = st.text_input(GUIDELINES["subs1_unit"]["VARIABLE_NAME"], key="25")
-            substance_9 = st.text_input(GUIDELINES["substance_9"]["VARIABLE_NAME"], key="26")
-            subs9_quant = st.text_input(GUIDELINES["subs9_quant"]["VARIABLE_NAME"], key="27")
-            subs9_unit = st.text_input(GUIDELINES["subs9_unit"]["VARIABLE_NAME"], key="28")
-            alert = st.checkbox(GUIDELINES['alert']["DESCRIPTION"], key="29")
+            analysis_update = analysis_update | {
+            "subs1_unit":  st.text_input(core_guidelines["subs1_unit"]["VARIABLE_NAME"], key="25"),
+            "substance_9":  st.text_input(core_guidelines["substance_9"]["VARIABLE_NAME"], key="26"),
+            "subs9_quant":  st.text_input(core_guidelines["subs9_quant"]["VARIABLE_NAME"], key="27"),
+            "subs9_unit":  st.text_input(core_guidelines["subs9_unit"]["VARIABLE_NAME"], key="28"),
+            "alert":  st.checkbox(core_guidelines['alert']["DESCRIPTION"])
+            }
 
         st.markdown(f"##### {interface_dic['req_field']}")
         submit = st.form_submit_button(f" {interface_dic['submit_samp']}")
 
+    with analysis_update["place_holder_sample_uid"]:
+        sample_uid = st.selectbox("ID de la muestra", options=entered_id_s)
+        analysis_update["sample_uid"] = sample_uid
+
+    updated_dict = {x: (analysis_update[x] if x in analysis_update else current_db[sample_uid][x]) for x in current_db[sample_uid]}
+
+    # import pandas as pd
+    # st.dataframe(pd.DataFrame.from_dict(analysis_update).T)
+
+    if submit:
+
         dic_set = {
-            sample_uid: {"organisation": orga_dict[username]['name'], "sample_uid": sample_uid,
-                          "width": width, "thickness": thickness, "height": height,
-                         "weight": weight,
-                         "test_method": test_method, "service_type": service_type, "substance_1": substance_1,
-                         "subs1_quant": subs1_quant, "subs1_unit": subs1_unit, "substance_9": substance_9,
-                         "subs9_quant": subs9_quant, "subs9_unit": subs9_unit, "alert": alert}
-                   }
+            updated_dict["sample_uid"]: updated_dict}
 
-        if submit:
+        st.text(f"{analysis_update['sample_uid']}, {analysis_update['substance_1']}")
 
-            st.text(f"{sample_uid}, {str(organisation)}, {sample_form}")
+        if analysis_update['sample_uid'] and analysis_update['substance_1']:
 
-            if sample_uid and organisation and sample_form:
+            post_to_db(dic_set, analysis_update['sample_uid'])
+            st.success(dic_set)
 
-                # Once the user has submitted, upload it to the database
-                if not substance_1:
-                    st.warning(f"{sample_uid} {interface_dic['warning']}")
-                    post_to_db(dic_set, sample_uid)
+        else:
 
-                else:
-                    post_to_db(dic_set, sample_uid)
-
-            else:
-
-                missing_fields = [x for x in dic_set[sample_uid] if x in required_fields if not dic_set[sample_uid][x] if x != "alert"]
-                # missing_fields = [c for c in [sample_uid and organisation and sample_form and substance_1] if c in required_fields]
-                st.warning(f"{interface_dic['warning_req_fields']} \n {missing_fields}")
+            missing_fields = [x for x in analysis_update['sample_uid'] if x in required_core_fields if not analysis_update['sample_uid'][x] if x != "alert"]
+            # missing_fields = [c for c in [sample_uid and organisation and sample_form and substance_1] if c in required_fields]
+            st.warning(f"{interface_dic['warning_req_fields']} \n {missing_fields}")
 
     st.markdown("##")
     st.subheader(interface_dic['upload_img'])
@@ -108,12 +117,12 @@ def analysis_form(username):
         if st.button(interface_dic['confirm_upload']):
             pic_pil = load_image(image_file)
             pic_ext = image_file.type.split("/")[1]
-            pic_pil.save(os.path.join("../images_db", f"{sample_uid}.PNG"))
-            st.success(f" {interface_dic['saved_img']} `{sample_uid}.{pic_ext}`")
+            pic_pil.save(os.path.join("../images_db", f"{analysis_update['sample_uid']}.PNG"))
+            st.success(f" {interface_dic['saved_img']} `{analysis_update['sample_uid']}.{pic_ext}`")
     st.markdown("##")
 
     if st.button(interface_dic['show_db']):
 
         st.dataframe(return_db()[1])
 
-    update_db(interface_dic)
+    # update_db(interface_dic)
