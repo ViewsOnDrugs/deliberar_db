@@ -17,7 +17,7 @@ db = firestore.Client(credentials=creds, project="substances-db")
 column_order= ['sample_uid',
                 'date', 'organisation', 'service_type',
                 'country',
-                'city', 'geo_context', 'relationship',
+                'city', 'geo_context', 'provider_relation',
                 'sold_as', 'sample_form',  'alias',
                 'colour', 'logo',  'width', 'height', 'used_prior', 'weight',  'thickness',
                'test_method', 'alert',
