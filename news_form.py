@@ -32,7 +32,7 @@ def render_other(dict_out, place_holders,  var_name, guidelines, interface_dict,
     if len(var_name) == 1:
         with dict_out[place_holders[1]]:
             if interface_dict["other"] in dict_out[var_name[0]] or "und zwar" in dict_out[var_name[0]]:
-                dict_out[var_name[0]] = st.text_input(f"{dict_out[var_name[0]]}:", key=key_numb)
+                dict_out[var_name[0]] = st.text_input(f"{dict_out[var_name[0]]}:", key=f"{key_numb}b")
 
     elif len(var_name) == 2:
         with dict_out[place_holders[1]]:
@@ -127,7 +127,7 @@ def news_form(username):
                  ["price_currency"], core_guidelines, interface_dic, 3)
 
     render_other(news_fields, ["placeholder_reasons_dc_visit", "placeholder_other_reasons_dc_visit"]
-                 ,  ["reasons_dc_visit"], news_guidelines, interface_dic, "4b")
+                 ,  ["reasons_dc_visit"], news_guidelines, interface_dic, 4)
 
     render_other(tedi_fieds_2, ["placeholder_provider_relation", "placeholder_other_provider_relation"]
                  ,  ["provider_relation"], core_guidelines, interface_dic, "5b")
