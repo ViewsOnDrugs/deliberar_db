@@ -157,21 +157,21 @@ def news_form(username):
             missing_fields = [combined_gidelines[x]["VARIABLE_NAME"] for x in compulsory_data if not submit_dict[x]]
             st.warning(f"{interface_dic['warning_req_fields']} \n {missing_fields}")
 
-    if st.button(interface_dic['show_db'], key=1):
+    if st.button(interface_dic['show_db'], key=5):
 
         st.dataframe(return_db(collection_name)[1])
     st.markdown("##")
     st.subheader(interface_dic['upload_img'])
     image_file = st.file_uploader(interface_dic['upload_img'], type=["png", "jpg", "jpeg"])
     if image_file:
-        if st.button(interface_dic['confirm_upload'], key=2):
+        if st.button(interface_dic['confirm_upload'], key=6):
             pic_pil = load_image(image_file)
             pic_ext = image_file.type.split("/")[1]
             pic_pil.save(os.path.join("../images_db", f"{submit_dict['sample_uid']}.PNG"))
             st.success(f" {interface_dic['saved_img']} `{submit_dict['sample_uid']}.{pic_ext}`")
     st.markdown("##")
 
-    if st.button(interface_dic['show_db'], key=3):
+    if st.button(interface_dic['show_db'], key=7):
 
         st.dataframe(return_db(collection_name)[1])
 
