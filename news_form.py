@@ -162,7 +162,7 @@ def news_form(username):
     current_data = return_db(collection_name)[1]
 
 
-    if st.button(interface_dic['show_db'], key="5b"):
+    if st.button(interface_dic['show_db'], key="5a"):
         st.dataframe(current_data)
 
     _, db2 = st.columns(2)
