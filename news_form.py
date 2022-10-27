@@ -157,7 +157,7 @@ def news_form(username):
             missing_fields = [combined_gidelines[x]["VARIABLE_NAME"] for x in compulsory_data if not submit_dict[x]]
             st.warning(f"{interface_dic['warning_req_fields']} \n {missing_fields}")
 
-    if st.button(interface_dic['show_db'], key=5):
+    if st.button(interface_dic['show_db'], key="5b"):
 
         st.dataframe(return_db(collection_name)[1])
     st.markdown("##")
