@@ -13,6 +13,9 @@ def load_image(image_file):
     img = Image.open(image_file)
     return img
 
+@st.experimental_memo
+def convert_df(df):
+    return df.to_csv(index=False).encode('utf-8')
 
 orga_dict = load_orga_lib()
 gc = geonamescache.GeonamesCache()
@@ -156,13 +159,36 @@ def news_form(username):
 
             missing_fields = [combined_gidelines[x]["VARIABLE_NAME"] for x in compulsory_data if not submit_dict[x]]
             st.warning(f"{interface_dic['warning_req_fields']} \n {missing_fields}")
+    current_data = return_db(collection_name)[1]
+
 
     if st.button(interface_dic['show_db'], key="5b"):
+        st.dataframe(current_data)
 
-        st.dataframe(return_db(collection_name)[1])
+    _, db2 = st.columns(2)
+
+    with db2:
+        csv = convert_df(current_data)
+
+        file_name = f'{tedi_fields["date"]}_{tedi_fields["organisation"]}_DB'
+
+        st.download_button(
+            f"{interface_dic['download_csv']}",
+            csv,
+            f"{file_name}.csv",
+            "text/csv",
+            key='download-csv'
+        )
+
+
     st.markdown("##")
     st.subheader(interface_dic['upload_img'])
     image_file = st.file_uploader(interface_dic['upload_img'], type=["png", "jpg", "jpeg"])
+
+
+
+
+
     if image_file:
         if st.button(interface_dic['confirm_upload'], key=6):
             pic_pil = load_image(image_file)

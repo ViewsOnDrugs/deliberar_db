@@ -7,6 +7,7 @@ _interface: &interface
   saved_img: Erfolgreich hochgeladenes Bild
   select_update: Zu aktualisierende ID auswählen
   show_db: Datenbank anzeigen
+  download_csv: Datenbank herunterladen
   submit_samp: Probe einreichen
   submit_pre: Daten übermitteln
   submit_form: Formular abschicken
