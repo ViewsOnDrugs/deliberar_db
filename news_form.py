@@ -19,7 +19,7 @@ gc = geonamescache.GeonamesCache()
 cities_all=gc.get_cities()
 
 # don't allow to send a sample without this variables:
-compulsory_data= ['organisation','date',  'sample_form', 'sold_as', 'reasons_dc_visit']
+compulsory_data= ['organisation', 'date', 'city', 'sample_form', 'sold_as', 'reasons_dc_visit']
 
 def render_other(dict_out, place_holders,  var_name, guidelines, interface_dict, key_numb):
     with dict_out[place_holders[0]]:

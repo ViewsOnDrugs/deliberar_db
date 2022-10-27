@@ -101,7 +101,7 @@ TEDI:
     DESCRIPTION: Stadt wo die Probe abgegeben wurde
     REQUIREMENT_LEVEL: required
     TYPE: text
-    VARIABLE_NAME: Stadt
+    VARIABLE_NAME: '*Stadt'
   colour:
     DESCRIPTION: Farbe der Substanz
     REQUIREMENT_LEVEL: required
@@ -189,7 +189,7 @@ TEDI:
     DESCRIPTION: (Darreichungs-)Form
     REQUIREMENT_LEVEL: required
     TYPE: vocabulary set
-    VARIABLE_NAME: (Darreichungs-)Form
+    VARIABLE_NAME: '*(Darreichungs-)Form'
     VOCABULARY:
     - ""
     - Gras bzw. getrocknete Pflanzenteile
@@ -225,7 +225,7 @@ TEDI:
     DESCRIPTION: Inhaltsstoffe laut Verkäufer*in
     REQUIREMENT_LEVEL: required
     TYPE: vocabulary set
-    VARIABLE_NAME: Inhaltsstoffe laut Verkäufer*n
+    VARIABLE_NAME: '*Inhaltsstoffe laut Verkäufer*n'
     VOCABULARY: *substances
   subs1_quant:
     DESCRIPTION: El valor numérico de la cuantificación (si está cuantificado). Excluye
@@ -368,7 +368,7 @@ NEWS:
     DESCRIPTION: Warum die Substanz eingeschickt wird
     REQUIREMENT_LEVEL: recommended
     TYPE: vocabulary set
-    VARIABLE_NAME:  Warum wird die Substanz eingeschickt?
+    VARIABLE_NAME:  '*Warum wird die Substanz eingeschickt?'
     VOCABULARY: *reasons_analysis
   knowledge_harmreduction:
     DESCRIPTION: Conocimiento reducción de riesgos y daños
